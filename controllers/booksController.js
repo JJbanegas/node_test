@@ -68,7 +68,29 @@ const booksController = (Book) =>{
     }
   }
 
-  return {getBooks, postBook, getBookById, putById, deleteById}
+  const GetBookByName = async(req, res) =>{
+    try{
+      const{ params } = req
+      const response = await Book.find({title: params.title})
+
+      return res.json(response)
+    } catch(error){
+      throw error
+    }
+  }
+
+  const GetBookByAuthor = async(req, res) =>{
+    try{
+      const{ params } = req
+      const response = await Book.find({author: params.author})
+
+      return res.json(response)
+    } catch(error){
+      throw error
+    }
+  }
+
+  return {getBooks, postBook, getBookById, putById, deleteById, GetBookByName, GetBookByAuthor}
 }
 
 module.exports = booksController

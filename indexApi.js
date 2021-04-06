@@ -1,6 +1,8 @@
 const express = require("express")
 const mongoose = require("mongoose")
 const bodyParser = require("body-parser")
+const jwt = require('express-jwt')
+
 const Book = require("./models/bookModel")
 const bookRouter = require('./routes/bookRouter')(Book)
 
@@ -21,6 +23,7 @@ connectDb()
 
 app.use(bodyParser.urlencoded({ extended: true}))
 app.use(bodyParser.json())
+app.all('/api/*', jwt({secret: 'secret', algorithms: ['HS256']}).unless({path: ['/api/ussers/login']}))
 app.use('/api',bookRouter)
 app.use('/api',usserRouter)
 
